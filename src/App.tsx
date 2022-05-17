@@ -1,45 +1,31 @@
 import { useState } from 'react'
-import './App.css'
-import logo from './logo.svg'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [hasPermission, setHasPermission] = useState(false)
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((prev) => prev + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <button
+        onClick={() => {
+          navigator.mediaDevices
+            .getUserMedia({
+              audio: true,
+            })
+            .then(function (stream) {
+              /* 使用这个stream stream */
+              console.log('获得录音授权成功')
+              setHasPermission(true)
+            })
+            .catch(function (err) {
+              /* 处理error */
+              console.log('获得录音授权失败')
+              setHasPermission(false)
+            })
+        }}
+      >
+        点击测试录音权限
+      </button>
+      <span>当前{hasPermission ? '已经获得' : '暂未获得'}录音权限</span>
     </div>
   )
 }
-
-export default App
